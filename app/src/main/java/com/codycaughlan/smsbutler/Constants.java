@@ -11,6 +11,9 @@ public class Constants {
     public static final String KEY_POSITION = "position";
     public static final String KEY_ACTION = "action";
 
+    public static final String PREFS_CONTACTS_ONLY = "true";
+    public static final String PREFS_OFFSET = "15";
+
     public static final int DID_CHOOSE_MESSAGE = 1;
     
     public static final int ACTION_CREATE = 1;

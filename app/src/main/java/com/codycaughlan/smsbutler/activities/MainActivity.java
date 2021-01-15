@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActionBarActivity {
     
     @InjectView(R.id.message_edit)
     EditText mMessageEdit;
-    
+
     @InjectView(R.id.save_button)
     Button mSave;
     
@@ -54,7 +55,13 @@ public class MainActivity extends BaseActionBarActivity {
     
     @InjectView(R.id.manage_container)
     LinearLayout mManageContainer;
-    
+
+    @InjectView(R.id.contactsOnly)
+    Switch mContactsOnly;
+
+    @InjectView(R.id.offset)
+    EditText mOffset;
+
     SharedPreferences mPreferences;
     private Realm mRealm;
     private Toolbar mToolbar;
@@ -63,16 +70,18 @@ public class MainActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        mPreferences = getSharedPreferences(Constants.PREFS_TITLE, Context.MODE_PRIVATE);
+                mPreferences = getSharedPreferences(Constants.PREFS_TITLE, Context.MODE_PRIVATE);
         ButterKnife.inject(this);
+//        boolean contactsOnly = mPreferences.getBoolean(Constants.PREFS_CONTACTS_ONLY, false);
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         mToggle.setChecked(isEnabled());
-        
+
         mMessageEdit.setText(fetchMessage());
+
+        mOffset.setText(fetchOffset());
 
         IconDrawable icon = new IconDrawable(this, Iconify.IconValue.fa_inbox).colorRes(R.color.black).sizeDp(20);
         mManage.setCompoundDrawables(null, null, icon, null);
@@ -103,13 +112,37 @@ public class MainActivity extends BaseActionBarActivity {
                 return handled;
             }
         });
-        
+
+        mOffset.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                dismissKeyboard();
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    persistOffset(getOffset());
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         mToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 toggleAutoReply(compoundButton.isChecked());
             }
         });
+
+
+        mContactsOnly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                boolean contactsOnly = mPreferences.getBoolean(Constants.PREFS_CONTACTS_ONLY, false);
+                toggleContactsOnly(compoundButton.isChecked());
+//                contactsOnly = mPreferences.getBoolean(Constants.PREFS_CONTACTS_ONLY, false);
+            }
+        });
+
 
         mManageContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +195,22 @@ public class MainActivity extends BaseActionBarActivity {
     private String fetchMessage() {
         return mPreferences.getString(Constants.PREFS_AUTO_REPLY_KEY, "");        
     }
-    
+
+    private String getOffset() {
+        return mOffset.getText().toString();
+    }
+
+    private void persistOffset(String offset) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(Constants.PREFS_OFFSET, offset);
+        editor.commit();
+        Toast.makeText(getApplicationContext(), "Offset Saved.", Toast.LENGTH_LONG).show();
+    }
+
+    private String fetchOffset() {
+        return mPreferences.getString(Constants.PREFS_OFFSET, "");
+    }
+
     private void dismissKeyboard() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mMessageEdit.getWindowToken(), 0);    
@@ -182,7 +230,13 @@ public class MainActivity extends BaseActionBarActivity {
         editor.commit();
         updateToggleColorState();
     }
-    
+
+    private void toggleContactsOnly(boolean enable) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(Constants.PREFS_CONTACTS_ONLY, enable);
+        editor.commit();
+    }
+
     private boolean isEnabled() {
         return mPreferences.getBoolean(Constants.PREFS_ENABLED, true);
     }

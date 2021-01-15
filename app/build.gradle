@@ -33,5 +33,6 @@ dependencies {
     implementation 'io.realm:realm-android:0.87.5'
     implementation 'com.joanzapata.android:android-iconify:1.0.11'
     implementation 'com.jakewharton:butterknife:6.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
 }
