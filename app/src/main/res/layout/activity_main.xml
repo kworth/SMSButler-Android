@@ -2,32 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <include layout="@layout/toolbar" />
-    
-    <View
-        android:id="@+id/spacer"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        />
+    tools:context="com.platypusinnovations.smsbutler.activities.MainActivity">
 
     <EditText
-        android:layout_below="@+id/spacer"
-        android:imeOptions="actionDone"
         android:id="@+id/message_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:background="#c0c0c0"
+        android:hint="What is your away message?"
+        android:imeOptions="actionDone"
+        android:padding="10dp"
         android:singleLine="true"
-        android:textSize="16sp"
         android:text=""
         android:textColor="@color/black"
-        android:padding="10dp"
-        android:hint="What is your away message?"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/save_button"
@@ -50,7 +41,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
+
         <TextView
             android:id="@+id/manage_messages"
             android:text="Manage your Messages"
@@ -71,16 +62,46 @@
 
     </LinearLayout>
 
+    <Switch
+        android:id="@+id/contactsOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/manage_container"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Limit to Contacts Only" />
+
+    <EditText
+        android:id="@+id/offset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactsOnly"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#c0c0c0"
+        android:hint="Resend Offset (Minutes)"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
     <ToggleButton
         android:id="@+id/toggle"
-        android:checked="true"
-        android:textSize="20sp"
-        android:textOn="Auto Reply: On"
-        android:textOff="Auto Reply: Off"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:checked="true"
+        android:textOff="Auto Reply: Off"
+        android:textOn="Auto Reply: On"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>
