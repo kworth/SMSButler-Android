@@ -11,7 +11,7 @@
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Use the Toolbar instead of the ActionBar (new in API 21 and AppCompat). -->
-        <item name="windowActionBar">false</item>
+        <!--item name="windowActionBar">false</item-->
 
         <item name="android:textColorPrimary">@color/white</item>
 
@@ -32,7 +32,6 @@
 
         <!-- Color of action menu valueUpdateEvents in the action-bar -->
         <item name="actionMenuTextColor">@color/white</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
     </style>
 
 
